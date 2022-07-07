@@ -7,11 +7,14 @@ const Footer = () => {
         position: "fixed",
         padding: "10px 20px",
         backgroundColor: "rgba(0,0,0,.6)",
-        bottom: "15px",
+        bottom: "20px",
 
         zIndex: 10000,
-        borderTopRightRadius: 5,
-        borderBottomRightRadius: 5,
+        // borderTopRightRadius: 5,
+        // borderBottomRightRadius: 5,
+
+        left: "50%",
+        transform: "translateX(-50%)",
       }}
     >
       <div className="d-flex">
