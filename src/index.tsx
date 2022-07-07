@@ -2,6 +2,7 @@ import { CRS } from "leaflet";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { GeoJSON, MapContainer } from "react-leaflet";
+import Back from "./Back";
 import mapData from "./data_2.json";
 import Footer from "./footer";
 import "./styles.css";
@@ -14,8 +15,6 @@ const countryStyle = {
 };
 
 function App() {
-  const ref: React.RefObject<HTMLDivElement> = React.useRef();
-
   const onEachCountry = (country, layer) => {
     const countryId = country.properties.id;
 
@@ -62,8 +61,9 @@ function App() {
   };
 
   return (
-    <div ref={ref}>
+    <div>
       <Footer />
+      <Back />
       {/* <RenderLayer /> */}
       <GeoJSON
         style={countryStyle}
