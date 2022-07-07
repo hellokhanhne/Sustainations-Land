@@ -15,6 +15,9 @@ const Back = () => {
         style={{
           cursor: "pointer",
         }}
+        onClick={() => {
+          window.location.replace("/");
+        }}
         width={55}
         height={35}
         src={back}
