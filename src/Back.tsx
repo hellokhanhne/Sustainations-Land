@@ -18,8 +18,8 @@ const Back = () => {
         onClick={() => {
           window.location.replace("/");
         }}
-        width={55}
-        height={35}
+        width={70}
+        height={40}
         src={back}
         alt=""
       />
