@@ -3,7 +3,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { GeoJSON, MapContainer } from "react-leaflet";
 import Back from "./Back";
-import mapData from "./data_2.json";
+import mapData from "./512grid.json";
 import Footer from "./footer";
 import "./styles.css";
 
