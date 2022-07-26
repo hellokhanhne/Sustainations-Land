@@ -3,11 +3,14 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { GeoJSON, MapContainer } from "react-leaflet";
 import Back from "./Back";
-import mapData from "./512grid.json";
+import mapData from "./pangea.json";
+import datagrid512 from "./512grid.json";
+import datagrid from "./grid.json";
+
 import Footer from "./footer";
 import "./styles.css";
 
-const countryStyle = {
+const binStyle = {
   fillColor: "green",
   fillOpacity: 1,
   color: "black",
@@ -15,67 +18,62 @@ const countryStyle = {
 };
 
 function App() {
-  const onEachCountry = (country, layer) => {
-    const countryId = country.properties.id;
+  const onEachbin = (bin: any, layer: any) => {
+    const binId = bin.properties.id;
 
-    layer.options.fillColor = "#002E5E";
-    layer.options.color = "#002E5E";
-
-    if (
-      [
-        1196, 1197, 1198, 1199, 1257, 1258, 1259, 1260, 1318, 1319, 1320, 1321,
-        1379, 1380, 1381, 1382, 1440, 1441, 1195, 1256, 1138, 1383, 1322, 1261,
-        1200, 1139,
-      ].includes(country.properties.id)
-    ) {
-      layer.options.fillColor = "#FAA61A";
-      layer.options.color = "#FAA61A";
+    // add event
+    if (isSquare(bin)) {
       layer.on("mouseover", function (e) {
-        layer.bindPopup(`<p> Land id : <b>${countryId}</b><p/>`).openPopup();
-      });
-    } else if (
-      [
-        // 331, 332,
-        1181, 1182, 1242, 1243, 594, 592, 593, 532, 1302, 1241, 1304, 1742,
-        1863, 1679, 1739,
-        // 392, 393,
-        1740, 1741, 1801, 1802,
-      ].includes(country.properties.id)
-    ) {
-      layer.options.fillColor = "#48C3CB";
-      layer.options.color = "#48C3CB";
-      layer.on("mouseover", function (e) {
+        layer.options.fillColor = "#ffffff";
+        layer.options.color = "#000000";
         layer
           .bindPopup(
-            `<p> Land id : <b>${countryId}</b><p/> <p> owner's name : <b>Mike Le</b><p/>`
+            `<p> Land id : <b>${binId}</b><p/> <p><b>HINH VUONG</b></p>`
           )
           .openPopup();
       });
     } else {
+      layer.options.fillColor = "#002E5E";
       layer.options.color = "#000000";
-
       layer.on("mouseover", function (e) {
-        layer.bindPopup(`<p> Land id : <b>${countryId}</b><p/>`).openPopup();
+        layer.bindPopup(`<p> Land id : <b>${binId}</b><p/>`).openPopup();
       });
     }
+  };
+
+  const isSquare = (bin: any) => {
+    const data = bin.geometry.coordinates[0][0];
+    if (data.length !== 5) return false;
+    const condition_1 = data[0][0] === data[4][0] && data[0][1] === data[4][1];
+    const condition_2 = data[1][1] === data[2][1];
+    const condition_3 = data[3][1] === data[4][1];
+    return condition_1 && condition_2 && condition_3;
   };
 
   return (
     <div>
       <Footer />
       <Back />
-      {/* <RenderLayer /> */}
+
+      <GeoJSON style={binStyle} data={mapData.features} />
       <GeoJSON
-        style={countryStyle}
-        data={mapData.features.map((f, i) => ({
+        style={binStyle}
+        data={datagrid.features}
+        onEachFeature={(bin, layer: any) => {
+          layer.options.fillColor = "rgba(0,0,0,0)";
+        }}
+      />
+      {/* <GeoJSON
+        style={binStyle}
+        data={datagrid512.features.map((f: any, i: any) => ({
           ...f,
           properties: {
             ...f.properties,
             ADMIN: `<h3><b color:green>test bam o so ${f.properties.id}</b></h3>`,
           },
         }))}
-        onEachFeature={onEachCountry}
-      />
+        onEachFeature={onEachbin}
+      /> */}
     </div>
   );
 }
